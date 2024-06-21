@@ -11,10 +11,11 @@ numpy==1.26.4
 pandas==2.2.0
 matplotlib==3.8.2
 seaborn==0.13.2
-langchain
+langchain == 0.0.154
 PyPDF2==3.0.1
 python-dotenv==1.0.0
 faiss-cpu==1.7.4
 altair<5
 tiktoken
 streamlit-extras
+langchain-community
