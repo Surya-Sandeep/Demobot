@@ -2,6 +2,7 @@ import streamlit as st
 from PyPDF2 import PdfReader
 import openai
 from langchain.llms import OpenAI
+from langchain.chains import LLMChain
 from langchain.chains.question_answering import load_qa_chain
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.docstore.document import Document
@@ -44,7 +45,7 @@ def main():
         # Initialize the LangChain components with GPT-3.5 Turbo model
         try:
             llm = OpenAI(model_name="text-gpt-3.5-turbo", openai_api_key=openai_api_key)
-            qa_chain = load_qa_chain(llm, chain_type="map_reduce")
+            qa_chain = LLMChain(llm, chain_type="map_reduce")
         except Exception as e:
             st.error(f"Error initializing OpenAI: {e}")
             return
