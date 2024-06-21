@@ -9,9 +9,6 @@ from langchain.llms import OpenAI
 from langchain.callbacks import get_openai_callback
 import openai
 
-# Set up logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 st.set_page_config(page_title="Ask your PDF")
 st.header("Ask your PDF 💬")
