@@ -30,5 +30,5 @@ else:
 # Check and censor the text if the button is enabled
 if st.button("Post Comment", disabled=post_button_disabled):
     censored_text = profanity.censor(text)
-    st.write("Censored Text:")
+    st.write("Comment:")
     st.write(censored_text)
