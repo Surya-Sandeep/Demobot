@@ -1,4 +1,4 @@
-openai
+openai==0.27.0
 numpy
 numba
 cartooner
@@ -20,3 +20,4 @@ tiktoken
 streamlit-extras
 langchain-community
 better_profanity
+
