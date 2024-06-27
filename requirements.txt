@@ -22,3 +22,4 @@ langchain-community
 better_profanity
 nudenet
 tempfile
+--upgrade pip
