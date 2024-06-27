@@ -20,4 +20,6 @@ tiktoken
 streamlit-extras
 langchain-community
 better_profanity
-
+nudenet
+PIL
+tempfile
