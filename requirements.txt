@@ -21,5 +21,6 @@ streamlit-extras
 langchain-community
 better_profanity
 nudenet
+NudeDetector
 tempfile
 pip==24.1.1
