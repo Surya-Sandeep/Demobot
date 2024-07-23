@@ -2,8 +2,8 @@ beautifulsoup4==4.12.3
 better_profanity==0.7.0
 cartooner==0.0.2
 docx==0.2.4
-langchain==0.2.10
-langchain_community==0.2.9
+langchain
+langchain_community
 langchain_huggingface==0.0.3
 matplotlib==3.8.0
 nudenet==3.0.8
@@ -20,4 +20,3 @@ Requests==2.32.3
 seaborn==0.13.2
 streamlit
 chromadb
-langchain.vectorstores
