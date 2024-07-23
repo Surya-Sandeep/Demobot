@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.schema import Document as LangchainDocument
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain.vectorstores import FAISS
+from langchain.vectorstores import Chroma
 from langchain_huggingface import HuggingFaceEndpoint
 import os
 from langchain.chains import RetrievalQA
@@ -73,8 +73,11 @@ if document:
     text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     split_docs = text_splitter.split_documents(document)
     embeddings = HuggingFaceEmbeddings()
-    db = FAISS.from_documents(split_docs, embeddings)
-    db.save_local("FAISS_INDEX")
+    persist_directory = 'db'
+    vectordb = Chroma.from_documents(documents = document, embedding = embeddings, persist_directory = persist_directory)
+    vectordb.persist()
+    vectordb = None
+    vectordb = Chroma(persist_directory = persist_directory, embedding_function = embeddings)
 
     # Query input
     query = st.text_input("Ask questions from your file")
@@ -82,7 +85,7 @@ if document:
         os.environ["HUGGINGFACEHUB_API_TOKEN"] = "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"
         repo_id = "mistralai/Mistral-7B-Instruct-v0.2"
         llm = HuggingFaceEndpoint(repo_id=repo_id, max_length=200, temperature=0.7)
-        retriever = db.as_retriever()
+        retriever = vectordb.as_retriever()
         qa_chain = RetrievalQA.from_chain_type(llm=llm,
                                               chain_type="stuff",
                                               retriever=retriever,
