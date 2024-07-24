@@ -5,7 +5,7 @@ import io
 from PIL import Image
 
 # Hugging Face API URL and headers
-API_URL = "https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4"
+API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0"
 headers = {"Authorization": "Bearer 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"}
 
 # Function to query the Hugging Face API
