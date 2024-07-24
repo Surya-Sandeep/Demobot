@@ -34,13 +34,12 @@ if st.button("Generate Image"):
             image_bytes = query({"inputs": image_desc})
             
             try:
+                # Open image using PIL and convert to high-resolution format
+                image = Image.open(io.BytesIO(image_bytes))
+                image = image.convert("RGB")
+                
                 # Display the image directly from bytes
                 st.image(image_bytes, caption="Generated Image", use_column_width=True)
-
-                # Convert image to JPEG format and prepare for download
-                buffered = io.BytesIO()
-                image.save(buffered, format="JPEG")
-                img_str = buffered.getvalue()
 
                 # Convert image to JPEG format
                 buffered = io.BytesIO(image_bytes)
