@@ -14,6 +14,16 @@ def query(payload):
 # Streamlit application
 st.title("Image Generator 🖼️")
 
+# Display category links
+st.markdown("""
+**Explore AI Image Prompts:**
+- [AI Image Prompts for Marketing Materials](https://narrato.io/blog/40-ai-image-prompts-to-create-amazing-visuals-effortlessly/#place3)
+- [AI Image Prompts for Photography](https://narrato.io/blog/40-ai-image-prompts-to-create-amazing-visuals-effortlessly/#place4)
+- [AI Image Prompts for Art](https://narrato.io/blog/40-ai-image-prompts-to-create-amazing-visuals-effortlessly/#place5)
+- [AI Image Prompts for Cartoons and Caricatures](https://narrato.io/blog/40-ai-image-prompts-to-create-amazing-visuals-effortlessly/#place6)
+- [AI Image Prompts for Video Game Design](https://narrato.io/blog/40-ai-image-prompts-to-create-amazing-visuals-effortlessly/#place7)
+""")
+
 # Input for image description
 image_desc = st.text_input("Enter the description of the image:")
 
@@ -30,8 +40,8 @@ if st.button("Generate Image"):
             st.download_button(
                 label="Download Image",
                 data=image_bytes,
-                file_name="generated_image.png",
-                mime="image/png"
+                file_name="generated_image.jpg",
+                mime="image/jpeg"
             )
     else:
         st.error("Please enter an image description.")
