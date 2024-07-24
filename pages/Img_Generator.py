@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import io
+from PIL import Image
 
 # Hugging Face API URL and headers
 API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0"
