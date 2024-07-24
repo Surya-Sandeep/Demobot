@@ -18,26 +18,30 @@ st.title("Image Generator 🖼️")
 # Input for image description
 image_desc = st.text_input("Enter the description of the image:")
 
+# Initialize a variable to store the image bytes
+image_bytes = None
+
 # Button to generate image
 if st.button("Generate Image"):
     if image_desc:
         with st.spinner("Generating image..."):
             image_bytes = query({"inputs": image_desc})
-            # Open and display the image
-            image = Image.open(io.BytesIO(image_bytes))
+
+        # Convert image to bytes for download
+        buffered = io.BytesIO(image_bytes)
+        image = Image.open(buffered)
+        img_str = buffered.getvalue()
+
+        # Button to view image
+        st.download_button(
+            label="Download Image",
+            data=img_str,
+            file_name="generated_image.png",
+            mime="image/png"
+        )
+
+        # Button to display image
+        if st.button("View Image"):
             st.image(image, caption="Generated Image", use_column_width=True)
-
-            # Convert image to bytes for download
-            buffered = io.BytesIO()
-            image.save(buffered, format="PNG")
-            img_str = buffered.getvalue()
-
-            # Download button
-            st.download_button(
-                label="Download Image",
-                data=img_str,
-                file_name="generated_image.png",
-                mime="image/png"
-            )
     else:
         st.error("Please enter an image description.")
