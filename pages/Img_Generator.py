@@ -3,7 +3,7 @@ import requests
 import io
 
 # Hugging Face API URL and headers
-API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0"
+API_URL = "https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4"
 headers = {"Authorization": "Bearer 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"}
 
 # Function to query the Hugging Face API
@@ -33,15 +33,22 @@ if st.button("Generate Image"):
         with st.spinner("Generating image..."):
             image_bytes = query({"inputs": image_desc})
             
-            # Display the image directly
-            st.image(image_bytes, caption="Generated Image", use_column_width=True)
+            try:
+                # Display the image directly from bytes
+                st.image(image_bytes, caption="Generated Image", use_column_width=True)
 
-            # Download button
-            st.download_button(
-                label="Download Image",
-                data=image_bytes,
-                file_name="generated_image.jpg",
-                mime="image/jpeg"
-            )
+                # Convert image to JPEG format
+                buffered = io.BytesIO(image_bytes)
+                img_str = buffered.getvalue()
+
+                # Download button
+                st.download_button(
+                    label="Download Image",
+                    data=img_str,
+                    file_name="generated_image.jpg",
+                    mime="image/jpeg"
+                )
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
     else:
         st.error("Please enter an image description.")
