@@ -25,7 +25,7 @@ st.markdown("""
 """)
 
 # Input for image description
-image_desc = st.text_input("Enter the description of the image:")
+image_desc = st.text_area("Enter the description of the image:", height=150)
 
 # Button to generate image
 if st.button("Generate Image"):
