@@ -37,6 +37,11 @@ if st.button("Generate Image"):
                 # Display the image directly from bytes
                 st.image(image_bytes, caption="Generated Image", use_column_width=True)
 
+                # Convert image to JPEG format and prepare for download
+                buffered = io.BytesIO()
+                image.save(buffered, format="JPEG")
+                img_str = buffered.getvalue()
+
                 # Convert image to JPEG format
                 buffered = io.BytesIO(image_bytes)
                 img_str = buffered.getvalue()
