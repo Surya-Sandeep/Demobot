@@ -1,39 +1,43 @@
 import streamlit as st
-from diffusers import StableDiffusionPipeline
-import torch
-import matplotlib.pyplot as plt
-import numpy as np
-from io import BytesIO
+import requests
+import io
+from PIL import Image
 
-# Load the model
-model_id = "dreamlike-art/dreamlike-diffusion-1.0"
-pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16, use_safetensors=True)
-pipe = pipe.to("cuda")
+# Hugging Face API URL and headers
+API_URL = "https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4"
+headers = {"Authorization": "Bearer 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"}
 
-# Streamlit app layout
-st.title("Stable Diffusion Image Generator")
+# Function to query the Hugging Face API
+def query(payload):
+    response = requests.post(API_URL, headers=headers, json=payload)
+    return response.content
 
-# User input for the prompt
-prompt = st.text_area("Enter your prompt here:", "dreamlikeart, a grungy woman with rainbow hair, travelling between dimensions, dynamic pose, happy, soft eyes and narrow chin, extreme bokeh, dainty figure, long hair straight down, torn kawaii shirt and baggy jeans")
+# Streamlit application
+st.title("Image Generator 🖼️")
+
+# Input for image description
+image_desc = st.text_input("Enter the description of the image:")
 
 # Button to generate image
 if st.button("Generate Image"):
-    if prompt:
+    if image_desc:
         with st.spinner("Generating image..."):
-            # Generate image
-            image = pipe(prompt).images[0]
-            
-            # Convert the image to a format suitable for Streamlit
-            fig, ax = plt.subplots(figsize=(8, 8))
-            ax.imshow(image)
-            ax.axis('off')
-            
-            # Save the figure to a BytesIO object
-            buf = BytesIO()
-            plt.savefig(buf, format="png", bbox_inches='tight', pad_inches=0)
-            buf.seek(0)
-            
-            # Display image in Streamlit
-            st.image(buf, use_column_width=True)
+            image_bytes = query({"inputs": image_desc})
+            # Open and display the image
+            image = Image.open(io.BytesIO(image_bytes))
+            st.image(image, caption="Generated Image", use_column_width=True)
+
+            # Convert image to bytes for download
+            buffered = io.BytesIO()
+            image.save(buffered, format="PNG")
+            img_str = buffered.getvalue()
+
+            # Download button
+            st.download_button(
+                label="Download Image",
+                data=img_str,
+                file_name="generated_image.png",
+                mime="image/png"
+            )
     else:
-        st.warning("Please enter a prompt.")
+        st.error("Please enter an image description.")
