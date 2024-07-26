@@ -32,7 +32,7 @@ def process_llm_response(llm_response):
     return result
 
 # Streamlit interface
-st.title("Files and URL Processor")
+st.title("Files and URL Q/A")
 
 # Option to choose between file upload or URL input
 option = st.radio("Choose an option:", ("Upload a file", "Enter a URL"))
