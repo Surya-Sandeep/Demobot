@@ -86,7 +86,7 @@ if document:
     query = st.text_input("Ask questions from your file")
     if query:
         os.environ["HUGGINGFACEHUB_API_TOKEN"] = "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"
-        repo_id = "mistralai/Mistral-7B-Instruct-v0.2"
+        repo_id = "mistralai/Mistral-7B-Instruct-v0.3"
         llm = HuggingFaceEndpoint(repo_id=repo_id, max_length=200, temperature=0.7)
         retriever = vectordb.as_retriever()
         qa_chain = RetrievalQA.from_chain_type(llm=llm,
