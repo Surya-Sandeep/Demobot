@@ -54,8 +54,4 @@ if uploaded_file is not None:
 
     st.video(out_file_path)
 
-    # Clean up temporary files
-    os.remove(tmp_file_path)
-    for file in os.listdir(processed_frames_dir):
-        os.remove(os.path.join(processed_frames_dir, file))
-    os.rmdir(processed_frames_dir)
+
