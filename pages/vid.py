@@ -17,8 +17,6 @@ if uploaded_file is not None:
         tmp_file.write(uploaded_file.read())
         tmp_file_path = tmp_file.name
 
-    st.video(tmp_file_path)
-
     # Process the video for face detection
     cap = cv2.VideoCapture(tmp_file_path)
 
