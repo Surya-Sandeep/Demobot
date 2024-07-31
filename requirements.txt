@@ -27,6 +27,5 @@ faiss-cpu==1.8.0
 deep_translator==1.11.4
 diffusers==0.29.2
 torch==2.3.1
-cv2
-mediapipe
-tempfile
+mediapipe==0.10.14
+tempfile == 3.8
