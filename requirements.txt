@@ -20,7 +20,7 @@ Requests==2.32.3
 seaborn==0.13.2
 streamlit
 chromadb==0.5.3
-protobuf==3.20.1
+protobuf==4.25.4
 pysqlite3-binary
 tiktoken==0.7.0
 faiss-cpu==1.8.0
@@ -28,4 +28,4 @@ deep_translator==1.11.4
 diffusers==0.29.2
 torch==2.3.1
 mediapipe==0.10.14
-tempfile == 3.8
+tempfile==3.8
