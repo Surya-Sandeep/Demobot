@@ -13,7 +13,7 @@ uploaded_file = st.file_uploader("Upload a video file", type=["mp4", "mov", "avi
 
 if uploaded_file is not None:
     # Save the uploaded file to a temporary directory
-    with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+    with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as tmp_file:
         tmp_file.write(uploaded_file.read())
         tmp_file_path = tmp_file.name
 
@@ -22,12 +22,15 @@ if uploaded_file is not None:
 
     # Create a temporary directory to save processed frames
     processed_frames_dir = tempfile.mkdtemp()
-    frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    out_file_path = os.path.join(processed_frames_dir, 'processed_video.mp4')
+
+    # Get video properties
     frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    frame_rate = int(cap.get(cv2.CAP_PROP_FPS))
 
-    out_file_path = os.path.join(processed_frames_dir, 'processed_video.mp4')
-    out = cv2.VideoWriter(out_file_path, cv2.VideoWriter_fourcc(*'mp4v'), 20.0, (frame_width, frame_height))
+    # Create VideoWriter object
+    out = cv2.VideoWriter(out_file_path, cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, (frame_width, frame_height))
 
     with mp_face_detection.FaceDetection(min_detection_confidence=0.2) as face_detection:
         while cap.isOpened():
@@ -52,6 +55,11 @@ if uploaded_file is not None:
     cap.release()
     out.release()
 
+    # Display the processed video
     st.video(out_file_path)
 
-
+    # Clean up temporary files
+    os.remove(tmp_file_path)
+    for file in os.listdir(processed_frames_dir):
+        os.remove(os.path.join(processed_frames_dir, file))
+    os.rmdir(processed_frames_dir)
