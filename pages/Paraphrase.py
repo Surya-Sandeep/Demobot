@@ -1,5 +1,5 @@
 import streamlit as st
-from parrot import Parrot
+import parrot as Parrot
 import torch
 import warnings
 
