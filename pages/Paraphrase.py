@@ -1,43 +1,26 @@
 import streamlit as st
-from transformers import PegasusForConditionalGeneration, PegasusTokenizer
-import torch
+from transformers import pipeline
 
-# Load the Pegasus model and tokenizer
-model_name = "google/pegasus-large"
-tokenizer = PegasusTokenizer.from_pretrained(model_name)
-model = PegasusForConditionalGeneration.from_pretrained(model_name)
+# Load the paraphrasing model
+paraphraser = pipeline("text2text-generation", model="Vamsi/T5_Paraphrase_Paws")
 
-# Function to generate paraphrases
-def generate_paraphrases(input_text):
-    # Prepare the input for the model
-    input_ids = tokenizer.encode(input_text, return_tensors="pt", max_length=512, truncation=True)
+def paraphrase_text(text):
+    # Paraphrase the input text
+    paraphrased = paraphraser(text, max_length=150, num_return_sequences=1)
+    return paraphrased[0]['generated_text']
 
-    # Generate paraphrases
-    with torch.no_grad():
-        output_ids = model.generate(input_ids, num_beams=5, num_return_sequences=5, max_length=60, early_stopping=True)
+# Streamlit app
+st.title("Text Paraphraser")
 
-    # Decode the generated paraphrases
-    paraphrases = [tokenizer.decode(output_id, skip_special_tokens=True) for output_id in output_ids]
-    return paraphrases
+# Text input
+input_text = st.text_area("Enter the text you want to paraphrase:", height=200)
 
-# Streamlit application
-def main():
-    st.title("Paraphrasing Application")
-    
-    # Input field for the phrase
-    phrase = st.text_input("Enter a phrase to paraphrase:", "")
-    
-    if st.button("Generate Paraphrases"):
-        if phrase:
-            # Generate paraphrases
-            para_phrases = generate_paraphrases(phrase)
-            
-            # Display paraphrases
-            st.subheader("Generated Paraphrases:")
-            for para_phrase in para_phrases:
-                st.write(para_phrase)
-        else:
-            st.warning("Please enter a phrase before generating paraphrases.")
-
-if __name__ == "__main__":
-    main()
+# Button to trigger paraphrasing
+if st.button("Paraphrase"):
+    if input_text:
+        with st.spinner("Paraphrasing..."):
+            paraphrased_output = paraphrase_text(input_text)
+        st.success("Paraphrased Text:")
+        st.write(paraphrased_output)
+    else:
+        st.error("Please enter some text to paraphrase.")
