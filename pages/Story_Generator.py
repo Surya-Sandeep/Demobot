@@ -26,8 +26,8 @@ prompt = PromptTemplate(input_variables=["content"], template="Tell me a story a
 chain = LLMChain(llm=llm, prompt=prompt)
 
 # Streamlit UI
-st.title("Alien Story Generator")
-st.write("Enter a topic to generate a story about aliens.")
+st.title("Story Generator")
+st.write("Enter a topic to generate a story.")
 
 # User input
 user_input = st.text_input("Enter a topic:", "aliens")
