@@ -28,4 +28,4 @@ deep_translator==1.11.4
 diffusers==0.29.2
 torch==2.3.1
 mediapipe==0.10.14
-parrot==1.0
+parrot
