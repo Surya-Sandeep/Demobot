@@ -2,11 +2,17 @@ import streamlit as st
 from transformers import pipeline
 
 # Load the paraphrasing model
-paraphraser = pipeline("text2text-generation", model="Vamsi/T5_Paraphrase_Paws")
+@st.cache_resource
+def load_model():
+    return pipeline("text2text-generation", model="t5-base")
+
+paraphraser = load_model()
 
 def paraphrase_text(text):
+    # Format the input text for the T5 model
+    input_text = f"paraphrase: {text} </s>"
     # Paraphrase the input text
-    paraphrased = paraphraser(text, max_length=150, num_return_sequences=1)
+    paraphrased = paraphraser(input_text, max_length=150, num_return_sequences=1)
     return paraphrased[0]['generated_text']
 
 # Streamlit app
